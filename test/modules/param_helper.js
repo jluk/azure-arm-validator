@@ -22,16 +22,16 @@ describe('Parameter Helper Tests', () => {
 
     parameters = paramHelper.replaceKeyParameters(parameters);
 
-    //check dnsName is longer than 18 chars
+    // check dnsName is longer than 18 chars
     assert.equal(parameters.parameters.dnsNameForPublicIP.value.length, 18,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.dnsNameForPublicIP.length to be 18.');
-    //check storageAccountName is longer than 18 chars
+    // check storageAccountName is longer than 18 chars
     assert.equal(parameters.parameters.newStorageAccountName.value.length, 18,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName.length to be 18.');
-    //check storageAccountName is longer than 18 chars
+    // check storageAccountName is longer than 18 chars
     assert.equal(parameters.parameters.jobId.value.length, 36,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 18.');
-    //check dnsName is not the same as storageAccountName
+    // check dnsName is not the same as storageAccountName
     assert.notEqual(parameters.parameters.dnsNameForPublicIP.value, parameters.parameters.newStorageAccountName.value,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName and parameters.paramters.dnsNameForPublicIP to not be equal.');
 
