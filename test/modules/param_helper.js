@@ -128,7 +128,7 @@ describe('Parameter Helper Tests', () => {
     // check jobId is 36 chars
     assert.equal(parameters.parameters.jobId.value.length, 36,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.jobId.value);
-    
+      
     parameterString = JSON.stringify(parameters);
 
     // check all placeholders are gone
