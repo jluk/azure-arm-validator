@@ -118,7 +118,6 @@ describe('Parameter Helper Tests', () => {
     }).trim();
 
     var placeholder = conf.get('GUID_REPLACE_INDICATOR');
-    console.log(placeholder);
 
     // check the specific gen-xxxx exists in conf and azuredeploy.json
     assert(parameterString.match(new RegExp(placeholder, 'g')).length > 0,
