@@ -109,6 +109,34 @@ describe('Parameter Helper Tests', () => {
     });
   });
 
+  // TEST SSH-KEY
+  it('Should replace ' + conf.get('SSH_KEY_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
+    // first read the sample template
+    var paramHelper = require('../../modules/param_helper');
+    var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json', {
+      encoding: 'utf8'
+    }).trim();
+
+    var placeholder = conf.get('SSH_KEY_REPLACE_INDICATOR');
+
+    // check the specific gen-xxxx exists in conf and azuredeploy.json
+    assert(parameterString.match(new RegExp(placeholder, 'g')).length > 0,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
+      Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
+    var parameters = JSON.parse(parameterString);
+
+    parameters = paramHelper.replaceKeyParameters(parameters);
+
+    // check jobId is 36 chars
+    assert.equal(parameters.parameters.sshKeyData.value.length, 36,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. SSHKEY: ' + parameters.parameters.sshKeyData.value);
+
+    parameterString = JSON.stringify(parameters);
+
+    // check all placeholders are gone
+    assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
+  });
+
   // TEST GEN-GUID
   it('Should replace ' + conf.get('GUID_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
     // first read the sample template
