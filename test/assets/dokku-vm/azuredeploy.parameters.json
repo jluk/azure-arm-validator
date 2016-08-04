@@ -16,6 +16,9 @@
     },
     "dnsNameForPublicIP": {
       "value": "GEN-UNIQUE"
+    },
+    "jobId": {
+      "value": "GEN-GUID"
     }
   }
 }

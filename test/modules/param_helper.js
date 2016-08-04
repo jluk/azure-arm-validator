@@ -5,9 +5,9 @@ var assert = require('assert');
 require('../helpers/setup_env');
 var conf = require('../../modules/config');
 
-describe('Paramter Helper Tests', () => {
+describe('Parameter Helper Tests', () => {
 
-  it('Should replace ' + conf.get('PARAM_REPLACE_INDICATOR') + ' placeholder with a unqiue 16 character parameter', () => {
+  it('Should replace ' + conf.get('PARAM_REPLACE_INDICATOR') + ' placeholder with a unique 16 character parameter', () => {
     // first read the sample template
     var paramHelper = require('../../modules/param_helper');
     var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.json', {
@@ -22,10 +22,16 @@ describe('Paramter Helper Tests', () => {
 
     parameters = paramHelper.replaceKeyParameters(parameters);
 
+    //check dnsName is longer than 18 chars
     assert.equal(parameters.parameters.dnsNameForPublicIP.value.length, 18,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.dnsNameForPublicIP.length to be 18.');
+    //check storageAccountName is longer than 18 chars
     assert.equal(parameters.parameters.newStorageAccountName.value.length, 18,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName.length to be 18.');
+    //check storageAccountName is longer than 18 chars
+    assert.equal(parameters.parameters.jobId.value.length, 36,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 18.');
+    //check dnsName is not the same as storageAccountName
     assert.notEqual(parameters.parameters.dnsNameForPublicIP.value, parameters.parameters.newStorageAccountName.value,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName and parameters.paramters.dnsNameForPublicIP to not be equal.');
 
@@ -36,6 +42,36 @@ describe('Paramter Helper Tests', () => {
       Expected all GEN-UNIQUE parameters to be replaced');
   });
 
+  it('Should replace ' + conf.get('PARAM_REPLACE_INDICATOR') + '-[N] placeholder with a unique [N] character parameter', () => {
+    // first read the sample template
+    var paramHelper = require('../../modules/param_helper');
+    var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json', {
+      encoding: 'utf8'
+    }).trim();
+
+    var placeholder = conf.get('PARAM_REPLACE_INDICATOR');
+
+    assert(parameterString.match(new RegExp(placeholder + '-\\d+', 'g')).length > 0,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
+      Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
+    var parameters = JSON.parse(parameterString);
+
+    parameters = paramHelper.replaceKeyParameters(parameters);
+
+    assert.equal(parameters.parameters.dnsNameForPublicIP.value.length, 24,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.dnsNameForPublicIP.length to be 24.');
+    assert.equal(parameters.parameters.adminUsername.value.length, 8,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.adminUsername.length to be 8.');
+    assert.equal(parameters.parameters.newStorageAccountName.value.length, 8,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName.length to be 8.');
+
+    parameterString = JSON.stringify(parameters);
+
+    // check all placeholders are gone
+    assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + '-[N] parameters to be replaced'));
+  });
+
+//TEST GEN-GUID
   it('Should replace ' + conf.get('PARAM_REPLACE_INDICATOR') + '-[N] placeholder with a unqiue [N] character parameter', () => {
     // first read the sample template
     var paramHelper = require('../../modules/param_helper');

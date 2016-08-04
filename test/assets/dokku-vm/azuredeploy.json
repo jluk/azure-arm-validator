@@ -20,6 +20,12 @@
         "description": "The SSH public key data for the administrator account as a string."
       }
     },
+    "jobId": {
+        "type": "string",
+        "metadata": {
+            "description": "The GUID for a given GUID required parameter."
+        }
+    },
     "dnsNameForPublicIP": {
       "type": "string",
       "metadata": {
