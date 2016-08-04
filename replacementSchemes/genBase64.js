@@ -1,5 +1,4 @@
 var module = require('module')
-var generaterandom = require('generaterandom');
 
 var conf = require('../modules/config');
 
