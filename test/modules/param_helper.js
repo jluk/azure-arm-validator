@@ -28,9 +28,6 @@ describe('Parameter Helper Tests', () => {
     // check storageAccountName is 18 chars
     assert.equal(parameters.parameters.newStorageAccountName.value.length, 18,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName.length to be 18.');
-    // check jobId is 36 chars
-    assert.equal(parameters.parameters.jobId.value.length, 36,
-      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.jobId.value);
     // check dnsName is not the same as storageAccountName
     assert.notEqual(parameters.parameters.dnsNameForPublicIP.value, parameters.parameters.newStorageAccountName.value,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName and parameters.paramters.dnsNameForPublicIP to not be equal.');
@@ -110,6 +107,32 @@ describe('Parameter Helper Tests', () => {
     assert.doesNotThrow(() => {
       paramHelper.replaceKeyParameters(parameters);
     });
+  });
+
+  it('Should replace ' + conf.get('GUID_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
+    // first read the sample template
+    var paramHelper = require('../../modules/param_helper');
+    var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json', {
+      encoding: 'utf8'
+    }).trim();
+
+    var placeholder = conf.get('GUID_REPLACE_INDICATOR');
+
+    assert(parameterString.match(new RegExp(placeholder + '-\\d+', 'g')).length > 0,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
+      Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
+    var parameters = JSON.parse(parameterString);
+
+    parameters = paramHelper.replaceKeyParameters(parameters);
+
+    // check jobId is 36 chars
+    assert.equal(parameters.parameters.jobId.value.length, 36,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.jobId.value);
+    
+    parameterString = JSON.stringify(parameters);
+
+    // check all placeholders are gone
+    assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
   });
 
 });
