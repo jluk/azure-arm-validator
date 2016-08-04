@@ -36,7 +36,7 @@ exports.replaceKeyParameters = function (parameters) {
   var replacementSchemeFiles = fs.readdirSync(replacementSchemesDir);
   for (var i = 0; i < replacementSchemeFiles.length; i = i + 1) {
     var replacementScheme = require(replacementSchemesDir + replacementSchemeFiles[i]);
-    parametersString.replace(new RegExp(conf.get(replacementScheme.indicator), 'g'), replacementScheme.value);
+    parametersString = parametersString.replace(new RegExp(conf.get(replacementScheme.indicator), 'g'), replacementScheme.value);
   }
 
   debug('rendered parameters string: ');
