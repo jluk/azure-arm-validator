@@ -109,6 +109,7 @@ describe('Parameter Helper Tests', () => {
     });
   });
 
+  // TEST GEN-GUID
   it('Should replace ' + conf.get('GUID_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
     // first read the sample template
     var paramHelper = require('../../modules/param_helper');
@@ -117,8 +118,10 @@ describe('Parameter Helper Tests', () => {
     }).trim();
 
     var placeholder = conf.get('GUID_REPLACE_INDICATOR');
+    console.log(placeholder);
 
-    assert(parameterString.match(new RegExp(placeholder + '-\\d+', 'g')).length > 0,
+    // check the specific gen-xxxx exists in conf and azuredeploy.json
+    assert(parameterString.match(new RegExp(placeholder, 'g')).length > 0,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
       Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
     var parameters = JSON.parse(parameterString);
