@@ -30,7 +30,7 @@ describe('Parameter Helper Tests', () => {
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName.length to be 18.');
     // check jobId is 36 chars
     assert.equal(parameters.parameters.jobId.value.length, 36,
-      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.jobId.value.length);
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.jobId.value);
     // check dnsName is not the same as storageAccountName
     assert.notEqual(parameters.parameters.dnsNameForPublicIP.value, parameters.parameters.newStorageAccountName.value,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.newStorageAccountName and parameters.paramters.dnsNameForPublicIP to not be equal.');
