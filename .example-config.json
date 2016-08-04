@@ -1,6 +1,6 @@
 {
   "comment": "You can either set these values as environment variables or to a file called '.config.json' at the root of the repo",
-  "PATH_TO_ROOT": "JULUK/Documents/github/azure-arm-validator",
+  "PATH_TO_ROOT": "C:/Users/JULUK/Documents/github/azure-arm-validator",
   "AZURE_CLIENT_ID": "00000000-0000-0000-0000-000000000000",
   "AZURE_TENANT_ID": "00000000-0000-0000-0000-000000000000",
   "AZURE_CLIENT_SECRET": "00000000-0000-0000-0000-000000000000",
