@@ -127,7 +127,6 @@ describe('Parameter Helper Tests', () => {
 
     parameters = paramHelper.replaceKeyParameters(parameters);
 
-    // check jobId is 36 chars
     assert.equal(parameters.parameters.sshKeyData.value.length, 36,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. SSHKEY: ' + parameters.parameters.sshKeyData.value);
 
