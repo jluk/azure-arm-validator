@@ -182,8 +182,8 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
 
     parameters = paramHelper.replaceKeyParameters(parameters);
 
-    // check base64 string is 36 chars
-    assert(new RegExp('^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$', 'g').length > 0,
+    // check base64 string is 48 chars after encoding a 36 char string
+    assert.equal(parameter.paramters.base64.value.length, 48,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected base64 encoded string: ' + parameters.parameters.base64.value);
 
     parameterString = JSON.stringify(parameters);
