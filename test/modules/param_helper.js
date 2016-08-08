@@ -164,4 +164,32 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
     assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
   });
 
+    // TEST GEN-BASE64
+  it('Should replace ' + conf.get('BASE64_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
+    // first read the sample template
+    var paramHelper = require('../../modules/param_helper');
+    var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json', {
+      encoding: 'utf8'
+    }).trim();
+
+    var placeholder = conf.get('BASE64_REPLACE_INDICATOR');
+
+    // check the specific gen-xxxx exists in conf and azuredeploy.json
+    assert(parameterString.match(new RegExp(placeholder, 'g')).length > 0,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
+      Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
+    var parameters = JSON.parse(parameterString);
+
+    parameters = paramHelper.replaceKeyParameters(parameters);
+
+    // check base64 string is 36 chars
+    assert.equal(parameters.parameters.base64.value.length, 36,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 36. GUID: ' + parameters.parameters.base64.value);
+
+    parameterString = JSON.stringify(parameters);
+
+    // check all placeholders are gone
+    assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
+  });
+
 });

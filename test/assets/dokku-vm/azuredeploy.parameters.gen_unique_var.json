@@ -19,6 +19,9 @@
     },
     "jobId": {
       "value": "GEN-GUID"
+    },
+    "base64": {
+      "value": "GEN-BASE64"
     }
   }
 }
