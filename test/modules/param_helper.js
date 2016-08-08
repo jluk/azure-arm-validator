@@ -127,7 +127,7 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
 
     parameters = paramHelper.replaceKeyParameters(parameters);
 
-    assert.equal(parameters.parameters.sshKeyData.value.length, 394,
+    assert.notEqual(parameters.parameters.sshKeyData.value.indexOf('ssh-rsa'), -1,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.sshKeyData.length to be 394. SSHKEY: ' + parameters.parameters.sshKeyData.value);
 
     parameterString = JSON.stringify(parameters);
@@ -185,6 +185,34 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
     // check base64 string is 48 chars after encoding a 36 char string
     assert.equal(parameters.parameters.base64.value.length, 48,
       'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected base64 encoded string: ' + parameters.parameters.base64.value);
+
+    parameterString = JSON.stringify(parameters);
+
+    // check all placeholders are gone
+    assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
+  });
+
+  // TEST GEN-PSK-KEY
+  it('Should replace ' + conf.get('PSK_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
+    // first read the sample template
+    var paramHelper = require('../../modules/param_helper');
+    var parameterString = fs.readFileSync('./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json', {
+      encoding: 'utf8'
+    }).trim();
+
+    var placeholder = conf.get('PSK_REPLACE_INDICATOR');
+
+    // check the specific gen-xxxx exists in conf and azuredeploy.json
+    assert(parameterString.match(new RegExp(placeholder, 'g')).length > 0,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json \
+      Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to have GEN-UNIQUE placeholders');
+    var parameters = JSON.parse(parameterString);
+
+    parameters = paramHelper.replaceKeyParameters(parameters);
+
+    // check psk key is 64 chars
+    assert.equal(parameters.parameters.pskKey.value.length, 64,
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected 64 chars for psk key: ' + parameters.parameters.pskKey.value);
 
     parameterString = JSON.stringify(parameters);
 

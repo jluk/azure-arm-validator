@@ -22,6 +22,9 @@
     },
     "base64": {
       "value": "GEN-BASE64"
+    },
+    "pskKey": {
+      "value": "GEN-PSK-KEY"
     }
   }
 }
