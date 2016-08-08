@@ -1,1 +1,1 @@
-module.exports = {'indicator': 'PSK_REPLACE_INDICATOR', 'value': 'ciP$ss'};
+module.exports = {'indicator': 'GEN-PSK-KEY', 'value': 'ciP$ss'};
