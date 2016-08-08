@@ -163,8 +163,8 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
     // check all placeholders are gone
     assert.equal(parameterString.match(new RegExp(placeholder + '-\\d+'), null, 'Expected all ' + placeholder + ' gen-guid parameters to be replaced'));
   });
-
-    // TEST GEN-BASE64
+  
+  // TEST GEN-BASE64
   it('Should replace ' + conf.get('BASE64_REPLACE_INDICATOR') + ' with a guid placeholder for a guid required parameter.', () => {
     // first read the sample template
     var paramHelper = require('../../modules/param_helper');
