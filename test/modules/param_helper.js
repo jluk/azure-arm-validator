@@ -128,7 +128,7 @@ Expected ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json to ha
     parameters = paramHelper.replaceKeyParameters(parameters);
 
     assert.equal(parameters.parameters.sshKeyData.value.length, 394,
-      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.jobId.length to be 394. SSHKEY: ' + parameters.parameters.sshKeyData.value);
+      'In ./test/assets/dokku-vm/azuredeploy.parameters.gen_unique_var.json Expected parameters.parameters.sshKeyData.length to be 394. SSHKEY: ' + parameters.parameters.sshKeyData.value);
 
     parameterString = JSON.stringify(parameters);
 
